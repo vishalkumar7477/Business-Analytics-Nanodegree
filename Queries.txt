@@ -1,0 +1,56 @@
+Query 1
+
+
+Which media type seems to be most prevalent?
+
+
+SELECT MediaType.Name Media_Type, COUNT(MediaType.MediaTypeId) Noftimes_played
+FROM Track 
+JOIN MediaType
+ON MediaType.MediaTypeId = Track.MediaTypeId
+GROUP BY MediaType.MediaTypeId
+ORDER BY Noftimes_played DESC;
+
+
+Query 2
+
+
+Which are the top 10 rock bands?
+
+
+SELECT Artist.Name, COUNT(Genre.Name) AS num
+FROM Artist, Album, Track, Genre
+WHERE Artist.ArtistId=Album.ArtistId
+AND Album.AlbumId=Track.AlbumId
+AND Track.GenreId=Genre.GenreId
+AND Genre.Name="Rock"
+GROUP BY Artist.Name
+ORDER BY num desc
+LIMIT 10
+
+
+Query 3
+
+
+What is the rank of the countries, customer wise?
+
+
+SELECT SUM(total) AS Spends, Country
+FROM Customer cust, Invoice inv
+WHERE cust.CustomerId= inv.CustomerId
+GROUP BY Country
+
+
+Query 4
+
+
+Who are the top ten customers?
+
+
+SELECT Customer.FirstName, Customer.Country, SUM(Invoice.Total) AS Total_Amount
+FROM Invoice
+JOIN Customer
+ON Customer.CustomerId = Invoice.CustomerId
+GROUP BY Customer.CustomerId
+ORDER BY Invoice.Total DESC
+LIMIT 10
